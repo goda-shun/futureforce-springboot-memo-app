@@ -22,6 +22,15 @@
             <div class="note-card" th:each="memo : ${memos}">
                 <div class="note-card-header">
                     <h3 class="note-card-title" th:text="${memo.title}">タイトル</h3>
+					<div class="note-badge high" th:if="${memo.priority.getLevel() == 1}">
+						高
+					</div>
+					<div class="note-badge medium" th:if="${memo.priority.getLevel() == 2}">
+						中
+					</div>
+					<div class="note-badge low" th:if="${memo.priority.getLevel() == 3}">
+						低
+					</div>
                 </div>
                 <div class="note-card-content">
                     <p class="note-card-text" th:text="${memo.content}">内容</p>
