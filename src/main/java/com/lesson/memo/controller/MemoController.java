@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lesson.memo.model.Memo;
@@ -36,7 +37,6 @@ public class MemoController {
         List<Memo> memos = memoRepository.findAll();
         memos.sort(Comparator.comparing(m -> ((Priority) m.getPriority()).getLevel()));
         model.addAttribute("memos", memos);
-        System.out.println(Priority.high.getLevel());
         return "memo-list";
     }
 
@@ -53,8 +53,6 @@ public class MemoController {
             return "memo-form";
         }
         
-        System.out.println(memo);
-
         memo.setCreatedAt(LocalDateTime.now());
         memo.setUpdatedAt(LocalDateTime.now());
         memoRepository.save(memo);
@@ -109,7 +107,7 @@ public class MemoController {
         if (result.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.memo", result);
             redirectAttributes.addFlashAttribute("memo", memo);
-            return "redirect:/memo/edit/" + id; // editにリダイレクト
+            return "redirect:/memo/edit/" + id;
         }
 
         memoToUpdate.setTitle(memo.getTitle());
@@ -132,4 +130,23 @@ public class MemoController {
 
         return "redirect:/memo";
     }
+    
+	@GetMapping("/search")
+	public String search(@RequestParam(required = false) String keyword, Model model) {
+		List<Memo> memos;
+		
+		if(keyword == null || keyword.isEmpty()) {
+			memos = memoRepository.findAll();
+		}else {
+			memos = memoRepository.findByTitleContainingOrContentContaining(keyword, keyword);
+		}
+		
+        memos.sort(Comparator.comparing(m -> ((Priority) m.getPriority()).getLevel()));
+			
+		model.addAttribute("memos", memos);
+		model.addAttribute("keyword", keyword);
+		
+		return "memo-list";
+	}
+    
 }
