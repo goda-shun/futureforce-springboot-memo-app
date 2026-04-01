@@ -24,3 +24,4 @@ public class AdminDetailService {
         adminRepository.save(admin);
     }
 }
+

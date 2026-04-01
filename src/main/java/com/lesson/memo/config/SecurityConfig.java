@@ -16,7 +16,8 @@ public class SecurityConfig{
         http
 
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/admin/signin", "/admin/signup").permitAll()
+                .requestMatchers("/admin/signin", "/admin/signup", "/css/**", "/js/**")
+                .permitAll()
                 .anyRequest().authenticated()
             )
 
@@ -34,6 +35,7 @@ public class SecurityConfig{
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/admin/signin")
+                .permitAll()
             );
 
         return http.build();

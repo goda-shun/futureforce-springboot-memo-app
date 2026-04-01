@@ -1,5 +1,7 @@
 package com.lesson.memo.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,8 @@ public class AdminController{
     public String register(@ModelAttribute Admin admin) {
     	String encodedPassword = passwordEncoder.encode(admin.getPassword());
     	admin.setPassword(encodedPassword);
+    	admin.setCreatedAt(LocalDateTime.now());
+    	admin.setUpdatedAt(LocalDateTime.now());
     	adminRepository.save(admin);
     	return "redirect:/admin/signin";
     }
