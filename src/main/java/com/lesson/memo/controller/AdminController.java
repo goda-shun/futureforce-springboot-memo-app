@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.lesson.memo.model.Admin;
 import com.lesson.memo.repository.AdminRepository;
-import com.lesson.memo.security.AdminDetailService;
 
 @Controller
 public class AdminController{
 
-	@Autowired
-    private AdminDetailService adminService;
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
