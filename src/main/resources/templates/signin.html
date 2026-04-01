@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+<title>ログイン画面</title>
+</head>
+<body>
+	<form th:action="@{/login}" th:object="${admin}" method="post">
+	  <input type="email" name="email" placeholder="メール">
+	  <input type="password" name="password" placeholder="パスワード">
+	  <button type="submit">ログイン</button>
+	</form>
+	<div th:if="${param.error}">
+	  ログイン失敗
+	</div>
+	
+	<hr>
+
+	<a href="/admin/signup">
+	  新規登録はこちら
+	</a>
+	<script th:src="@{/js/script.js}"></script>
+</body>
+</html>
